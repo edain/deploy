@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: admin-web
+  labels:
+    app: admin-web
+spec:
+  type: ClusterIP
+  selector:
+    app: admin-web
+  ports:
+  - protocol: TCP
+    port: 3003

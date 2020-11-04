@@ -1,0 +1,3 @@
+domain: api.admin.production.com
+secretName: letsencrypt-production-admin-api
+environment: production

@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: admin-api
+  labels:
+    app: admin-api
+spec:
+  type: ClusterIP
+  selector:
+    app: admin-api
+  ports:
+  - protocol: TCP
+    port: 3005

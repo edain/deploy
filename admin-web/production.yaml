@@ -1,0 +1,3 @@
+domain: app.admin.production.com
+secretName: letsencrypt-production-admin-web
+environment: production

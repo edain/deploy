@@ -1,0 +1,3 @@
+domain: api.staging.com
+secretName: letsencrypt-staging-api
+environment: staging

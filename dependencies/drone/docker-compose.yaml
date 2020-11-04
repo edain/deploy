@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  drone-server:
+    image: drone/drone:1
+    restart: always
+    volumes:
+      - /var/lib/drone:/data
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - DRONE_SERVER_PROTO=https
+      - DRONE_SERVER_HOST=drone.staging.com
+      - DRONE_RPC_SECRET=a95d0d55740c5205ce497a2e345421c7
+      - DRONE_GITHUB_CLIENT_ID=XXX
+      - DRONE_GITHUB_CLIENT_SECRET=XXX
+      - DRONE_USER_CREATE=username:hovoodd,admin:true
+      - DRONE_CONVERT_PLUGIN_ENDPOINT=http://drone-converter:3000
+      - DRONE_CONVERT_PLUGIN_SECRET=da31fdb29b415415599bb51e1f2e835b
+      - DRONE_JSONNET_ENABLED=true
+
+  drone-runner:
+    image: drone/drone-runner-docker:1
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DRONE_RPC_PROTO=http
+      - DRONE_RPC_HOST=drone-server
+      - DRONE_RPC_SECRET=a95d0d55740c5205ce497a2e345421c7
+
+  drone-converter:
+    image: meltwater/drone-convert-pathschanged
+    restart: always
+    environment:
+      - DRONE_SECRET=da31fdb29b415415599bb51e1f2e835b
+      - TOKEN=XXX
+      - PROVIDER=github

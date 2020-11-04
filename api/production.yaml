@@ -1,0 +1,3 @@
+domain: api.production.com
+secretName: letsencrypt-production-api
+environment: production

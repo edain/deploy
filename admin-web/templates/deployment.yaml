@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: admin-web
+  labels:
+    app: admin-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-web
+  template:
+    metadata:
+      labels:
+        app: admin-web
+    spec:
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: admin-web
+        image: repository/admin-web:{{ .Values.imageTag }}
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3003
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        env:
+        - name: APP_ENV
+          value: {{ .Values.environment }}
+        ports:
+        - containerPort: 3003
+          protocol: TCP
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
